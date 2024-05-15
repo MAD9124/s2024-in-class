@@ -72,8 +72,26 @@ const allDogs = pets.filter(({ type }) => type === "dog");
 
 // some
 const petNameStartWithM = pets.some(({ name }) => name.startsWith("m"));
-console.log(petNameStartWithM);
+// console.log(petNameStartWithM);
 
 // every
 const allPetsAreDogs = pets.every(({ type }) => type === "dog");
-console.log(allPetsAreDogs);
+// console.log(allPetsAreDogs);
+
+// reduce
+// const str = ["a", "b", "c", "d", "e"].reduce((acc, cv) => acc + cv);
+// console.log(str);
+const str = ["a", "b", "c", "d", "e"].reduce(
+  (acc, cv) => acc + cv,
+  "Tim can say the alphabet "
+);
+// console.log(str);
+
+const total = [1, 2, 3, 4, 5, 6, 7, 8, 9].reduce((acc, cv) => acc + cv);
+console.log(total);
+
+const petMap = pets.reduce((acc, cv) => {
+  acc[cv.id] = cv;
+  return acc;
+}, {});
+// console.log(petMap[2]);
