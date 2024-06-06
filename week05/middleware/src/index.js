@@ -5,6 +5,10 @@ const carsRouter = require("./routers/cars");
 const app = express();
 
 // middleware
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.url} - ${new Date()}`);
+  next();
+});
 app.use(express.json());
 
 app.get("/", (_req, res) => {
