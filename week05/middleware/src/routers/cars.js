@@ -5,10 +5,16 @@ const {
   validateCar,
   partialValidateCar,
 } = require("../middlewares/validateCar");
+const uploadProfilePic = require("../middlewares/uploadProfilePic");
 
 const carsRouter = Router();
 
 carsRouter.post("/", validateCar, carsController.create);
+carsRouter.post(
+  "/profile-pic",
+  uploadProfilePic,
+  carsController.uploadProfilePic
+);
 carsRouter.get("/", carsController.getAll);
 carsRouter.get("/:id", carsController.getOne);
 carsRouter.put("/:id", validateCar, carsController.replaceOne);

@@ -108,6 +108,14 @@ const deleteOne = (_req, res) => {
   });
 };
 
+const uploadProfilePic = (req, res) => {
+  res.json({
+    data: {
+      message: `Successfully upload image to "/public/uploads/${req.file.filename}`,
+    },
+  });
+};
+
 module.exports = {
   create,
   getAll,
@@ -115,4 +123,5 @@ module.exports = {
   replaceOne,
   updateOne,
   deleteOne,
+  uploadProfilePic,
 };
