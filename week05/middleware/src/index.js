@@ -1,6 +1,7 @@
 const express = require("express");
 
 const carsRouter = require("./routers/cars");
+const { errorHandler } = require("./utils/errors");
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/cars", carsRouter);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
