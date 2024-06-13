@@ -14,7 +14,11 @@ const create = (input) => {
   return newCar;
 };
 
-const getAll = () => cars;
+const getAll = (make) => {
+  return cars.filter((car) => {
+    return car.make.toLowerCase().includes(make.toLowerCase());
+  });
+};
 
 const getById = (id) => {
   const car = cars.find((car) => car.id === Number(id));

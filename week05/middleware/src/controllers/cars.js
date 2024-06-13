@@ -14,9 +14,12 @@ const create = (req, res, next) => {
   }
 };
 
-const getAll = (_req, res, next) => {
+const getAll = (req, res, next) => {
   try {
-    const cars = carService.getAll();
+    const { make } = req.query;
+
+    const cars = carService.getAll(make);
+    
     res.json({
       data: cars,
     });
