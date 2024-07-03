@@ -1,12 +1,12 @@
 const axios = require('axios').default;
 
-const cacheService = require('./cache');
+const cacheService = require('./redisCache');
 const { BadRequestError } = require('../utils/errors');
 
 const { API_KEY } = process.env;
 
 const getWeather = async (city, date) => {
-  const cachedValue = cacheService.getWeather(city, date);
+  const cachedValue = await cacheService.getWeather(city, date);
 
   if (cachedValue) {
     return cachedValue;

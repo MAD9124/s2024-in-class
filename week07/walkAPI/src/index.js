@@ -3,6 +3,9 @@ const express = require('express');
 
 const walkRouter = require('./routers/walk');
 const { errorHandler } = require('./utils/errors');
+const redisService = require('./services/redisCache');
+
+redisService.init();
 
 const app = express();
 app.use(express.json());
