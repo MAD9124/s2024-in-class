@@ -1,9 +1,9 @@
-const carService = require("../services/cars");
+const carService = require('../services/cars');
 
-const create = (req, res, next) => {
+const create = async (req, res, next) => {
   try {
     // getting the data from the request
-    const newCar = carService.create(req.body);
+    const newCar = await carService.create(req.body);
 
     // send a response
     res.status(201).json({
@@ -14,12 +14,12 @@ const create = (req, res, next) => {
   }
 };
 
-const getAll = (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
     const { make } = req.query;
 
-    const cars = carService.getAll(make);
-    
+    const cars = await carService.getAll(make);
+
     res.json({
       data: cars,
     });
@@ -28,12 +28,11 @@ const getAll = (req, res, next) => {
   }
 };
 
-const getOne = (req, res, next) => {
+const getOne = async (req, res, next) => {
   try {
-    // 1 get data from the request
     const { id } = req.params;
 
-    const car = carService.getById(id);
+    const car = await carService.getById(id);
 
     res.json({ data: car });
   } catch (err) {
@@ -41,11 +40,11 @@ const getOne = (req, res, next) => {
   }
 };
 
-const replaceOne = (req, res, next) => {
+const updateOne = async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
+    const { id } = req.params;
 
-    const updatedCar = carService.replaceOne(id, req.body);
+    const updatedCar = await carService.updateOne(id, req.body);
 
     res.json({
       data: updatedCar,
@@ -55,24 +54,10 @@ const replaceOne = (req, res, next) => {
   }
 };
 
-const updateOne = (req, res, next) => {
+const deleteOne = async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
-
-    const updatedCar = carService.updateOne(id, req.body);
-
-    res.json({
-      data: updatedCar,
-    });
-  } catch (err) {
-    next(err);
-  }
-};
-
-const deleteOne = (req, res, next) => {
-  try {
-    const id = Number(req.params.id);
-    const deletedCar = carService.deleteOne(id);
+    const { id } = req.params;
+    const deletedCar = await carService.deleteOne(id);
     res.json({
       data: deletedCar,
     });
@@ -93,7 +78,6 @@ module.exports = {
   create,
   getAll,
   getOne,
-  replaceOne,
   updateOne,
   deleteOne,
   uploadProfilePic,

@@ -1,3 +1,5 @@
+const { MongooseError } = require('mongoose');
+
 class ApiError extends Error {
   statusCode = 500;
 }
@@ -19,7 +21,15 @@ class NotFoundError extends ApiError {
 }
 
 const errorHandler = (error, req, res, next) => {
-  console.log("error", error);
+  console.log('error', error, error.name);
+
+  if (error instanceof MongooseError && error.name === 'ValidationError') {
+    res.status(400).json({
+      error: {
+        message: error.message,
+      },
+    });
+  }
 
   if (error instanceof ApiError) {
     res.status(error.statusCode).json({
@@ -32,7 +42,7 @@ const errorHandler = (error, req, res, next) => {
 
   res.status(500).json({
     error: {
-      message: "Something went wrong",
+      message: 'Something went wrong',
     },
   });
 };

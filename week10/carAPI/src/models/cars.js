@@ -1,8 +1,25 @@
-const cars = [
-  { id: 1, make: "Toyota", model: "PriusV", colour: "White" },
-  { id: 2, make: "BMW", model: "M4", colour: "Yello" },
-  { id: 3, make: "Toyota", model: "Supra", colour: "White" },
-  { id: 4, make: "Tesla", model: "Y", colour: "Chestnut Brown" },
-];
+const { model, Schema } = require('mongoose');
 
-module.exports = cars;
+const carSchema = new Schema(
+  {
+    make: {
+      type: String,
+      required: true,
+      minLength: 3,
+    },
+    model: {
+      type: String,
+      required: true,
+    },
+    colour: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+
+module.exports = model('Car', carSchema);

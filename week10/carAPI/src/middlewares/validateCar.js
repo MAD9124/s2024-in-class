@@ -1,12 +1,12 @@
 const approvedColours = [
-  "red",
-  "yellow",
-  "orange",
-  "green",
-  "blue",
-  "purple",
-  "white",
-  "black",
+  'red',
+  'yellow',
+  'orange',
+  'green',
+  'blue',
+  'purple',
+  'white',
+  'black',
 ];
 
 const validateCar = (req, res, next) => {
@@ -19,30 +19,7 @@ const validateCar = (req, res, next) => {
     });
     return;
   }
-  if (make.length < 3) {
-    res.status(400).json({
-      error: {
-        message: "make must be 3 characters or more",
-      },
-    });
-    return;
-  }
-  if (model.length < 1) {
-    res.status(400).json({
-      error: {
-        message: "model must be 1 character or more",
-      },
-    });
-    return;
-  }
-  if (!approvedColours.includes(colour.toLowerCase())) {
-    res.status(400).json({
-      error: {
-        message: `must be an approved colour: ${approvedColours.join(", ")}`,
-      },
-    });
-    return;
-  }
+
   req.body = {
     make,
     model,
@@ -51,12 +28,16 @@ const validateCar = (req, res, next) => {
   next();
 };
 
+/**
+ * @deprecated
+ * no longer needed, use mongoose validation instead
+ */
 const partialValidateCar = (req, res, next) => {
   const { make, model, colour } = req.body;
   if (!make && !model && !colour) {
     res.status(400).json({
       error: {
-        message: "nothing to update",
+        message: 'nothing to update',
       },
     });
     return;
@@ -64,7 +45,7 @@ const partialValidateCar = (req, res, next) => {
   if (make && make.length < 3) {
     res.status(400).json({
       error: {
-        message: "make must be 3 characters or more",
+        message: 'make must be 3 characters or more',
       },
     });
     return;
@@ -72,7 +53,7 @@ const partialValidateCar = (req, res, next) => {
   if (model && model.length < 1) {
     res.status(400).json({
       error: {
-        message: "model must be 1 character or more",
+        message: 'model must be 1 character or more',
       },
     });
     return;
@@ -80,7 +61,7 @@ const partialValidateCar = (req, res, next) => {
   if (colour && !approvedColours.includes(colour.toLowerCase())) {
     res.status(400).json({
       error: {
-        message: `must be an approved colour: ${approvedColours.join(", ")}`,
+        message: `must be an approved colour: ${approvedColours.join(', ')}`,
       },
     });
     return;
