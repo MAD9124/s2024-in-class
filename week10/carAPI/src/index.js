@@ -1,7 +1,9 @@
-const express = require("express");
+const express = require('express');
 
-const carsRouter = require("./routers/cars");
-const { errorHandler } = require("./utils/errors");
+require('dotenv/config');
+require('./utils/db');
+const carsRouter = require('./routers/cars');
+const { errorHandler } = require('./utils/errors');
 
 const app = express();
 
@@ -12,11 +14,11 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 
-app.get("/", (_req, res) => {
-  res.send("Server running 🚀🚀🚀");
+app.get('/', (_req, res) => {
+  res.send('Server running 🚀🚀🚀');
 });
 
-app.use("/api/cars", carsRouter);
+app.use('/api/cars', carsRouter);
 
 app.use(errorHandler);
 
