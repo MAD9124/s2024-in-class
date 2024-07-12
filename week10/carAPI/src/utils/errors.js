@@ -29,6 +29,7 @@ const errorHandler = (error, req, res, next) => {
         message: error.message,
       },
     });
+    return;
   }
 
   if (error instanceof ApiError) {
