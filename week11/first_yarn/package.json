@@ -1,0 +1,10 @@
+{
+  "name": "first_yarn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Tim Robillard",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
