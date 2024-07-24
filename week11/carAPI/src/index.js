@@ -1,7 +1,9 @@
 require('dotenv/config');
 
+const compression = require('compression');
+const cors = require('cors');
 const express = require('express');
-const debug = require('debug')('car:app');
+const helmet = require('helmet');
 const sanitizeMongo = require('express-mongo-sanitize');
 
 require('./utils/db');
@@ -13,10 +15,16 @@ const logger = require('./utils/logger');
 const app = express();
 
 // middleware
+app.use(cors('*'));
 app.use(express.json());
 app.use(sanitizeBody);
 
 app.use(sanitizeMongo());
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(compression());
+  app.use(helmet());
+}
 
 app.get('/', (_req, res) => {
   res.send('Server running 🚀🚀🚀');
