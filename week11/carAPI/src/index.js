@@ -4,6 +4,7 @@ const compression = require('compression');
 const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
+const morgan = require('morgan');
 const sanitizeMongo = require('express-mongo-sanitize');
 
 require('./utils/db');
@@ -17,9 +18,15 @@ const app = express();
 // middleware
 app.use(cors('*'));
 app.use(express.json());
-app.use(sanitizeBody);
 
 app.use(sanitizeMongo());
+app.use(sanitizeBody);
+
+app.use(
+  morgan('tiny', {
+    stream: { write: (message) => logger.info(message) },
+  })
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(compression());
