@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const debug = require('debug')('car:db');
+const logger = require('./logger');
 
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {
-    debug('Connected to mongoose');
+    logger.info('Connected to mongoose');
   })
   .catch((err) => {
-    debug('Error connecting to mongoose', err);
+    logger.error('Error connecting to mongoose', err);
   });

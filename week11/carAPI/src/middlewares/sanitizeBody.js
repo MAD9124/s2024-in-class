@@ -31,9 +31,7 @@ const stripTags = (payload) => {
 const sanitizeBody = (req, _res, next) => {
   const { id, _id, ...attributes } = req.body;
 
-  debug('start', attributes);
   req.sanitizedBody = stripTags(attributes);
-  debug('end', req.sanitizedBody);
   next();
 };
 
