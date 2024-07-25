@@ -7,8 +7,19 @@ const {
   validateCar,
   partialValidateCar,
 } = require('../middlewares/validateCar');
+const passport = require('passport');
 
 const carsRouter = Router();
+
+carsRouter.get('/', carsController.getAll);
+carsRouter.get('/:id', isValidObjectId, carsController.getOne);
+
+carsRouter.use(
+  passport.authenticate('bearer', {
+    session: false,
+    failureRedirect: '/auth/login',
+  })
+);
 
 carsRouter.post('/', validateCar, carsController.create);
 carsRouter.post(
@@ -16,14 +27,8 @@ carsRouter.post(
   uploadProfilePic,
   carsController.uploadProfilePic
 );
-carsRouter.get('/', carsController.getAll);
-carsRouter.get('/:id', isValidObjectId, carsController.getOne);
 carsRouter.put('/:id', isValidObjectId, validateCar, carsController.updateOne);
-carsRouter.patch(
-  '/:id',
-  isValidObjectId,
-  carsController.updateOne
-);
+carsRouter.patch('/:id', isValidObjectId, carsController.updateOne);
 carsRouter.delete('/:id', isValidObjectId, carsController.deleteOne);
 
 module.exports = carsRouter;

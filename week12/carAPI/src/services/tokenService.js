@@ -5,6 +5,12 @@ const generateToken = (user) =>
     expiresIn: '1 day',
   });
 
+const verifyToken = (token) => {
+  const verified = jwt.verify(token, process.env.JWT_SECRET);
+  return verified;
+};
+
 module.exports = {
   generateToken,
+  verifyToken,
 };
