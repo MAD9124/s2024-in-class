@@ -8,8 +8,10 @@ const morgan = require('morgan');
 const sanitizeMongo = require('express-mongo-sanitize');
 
 require('./utils/db');
+require('./utils/passport');
 const sanitizeBody = require('./middlewares/sanitizeBody');
 const carsRouter = require('./routers/cars');
+const authRouter = require('./routers/auth');
 const { errorHandler } = require('./utils/errors');
 const logger = require('./utils/logger');
 
@@ -37,6 +39,7 @@ app.get('/', (_req, res) => {
   res.send('Server running 🚀🚀🚀');
 });
 
+app.use('/auth', authRouter);
 app.use('/api/cars', carsRouter);
 
 app.use(errorHandler);
