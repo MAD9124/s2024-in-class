@@ -10,9 +10,16 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
       minLength: 6,
     },
+    googleId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    firstName: String,
+    lastName: String,
+    profilePic: String,
   },
   {
     timestamps: true,

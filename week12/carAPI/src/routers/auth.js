@@ -20,4 +20,26 @@ authRouter.post(
   }
 );
 
+authRouter.get(
+  '/google',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: false,
+    scope: ['profile'],
+  })
+);
+
+authRouter.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: false,
+    scope: ['profile'],
+  }),
+  (req, res) => {
+    const token = generateToken(req.user);
+    res.redirect(`/login-success?token=${token}`);
+  }
+);
+
 module.exports = authRouter;
