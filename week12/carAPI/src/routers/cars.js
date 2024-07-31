@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const passport = require('passport');
 
 const carsController = require('../controllers/cars');
 const isValidObjectId = require('../middlewares/isValidObjectId');
@@ -7,19 +8,16 @@ const {
   validateCar,
   partialValidateCar,
 } = require('../middlewares/validateCar');
-const passport = require('passport');
+
+const isAuthenticated = require('../middlewares/isAuthenticated');
 
 const carsRouter = Router();
 
 carsRouter.get('/', carsController.getAll);
+carsRouter.get('/mine', isAuthenticated, carsController.getMine);
 carsRouter.get('/:id', isValidObjectId, carsController.getOne);
 
-carsRouter.use(
-  passport.authenticate('bearer', {
-    session: false,
-    failureRedirect: '/auth/login',
-  })
-);
+carsRouter.use(isAuthenticated);
 
 carsRouter.post('/', validateCar, carsController.create);
 carsRouter.post(

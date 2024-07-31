@@ -1,8 +1,10 @@
-const Car = require('../models/cars');
-const { NotFoundError } = require('../utils/errors');
+const { ObjectId } = require('mongodb');
 
-const create = async (input) => {
-  const newCar = new Car(input);
+const Car = require('../models/cars');
+const { NotFoundError, ForbiddenError } = require('../utils/errors');
+
+const create = async (owner, input) => {
+  const newCar = new Car({ ...input, owner });
   await newCar.save();
 
   return newCar;
@@ -16,6 +18,13 @@ const create = async (input) => {
 const getAll = async (make) => {
   const cars = await Car.find({
     ...(make && { make }),
+  });
+  return cars;
+};
+
+const getMine = async (owner) => {
+  const cars = await Car.find({
+    owner: new ObjectId(owner),
   });
   return cars;
 };
@@ -41,19 +50,25 @@ const updateOne = async (id, input) => {
   return updatedCar;
 };
 
-const deleteOne = async (id) => {
-  const deletedCar = await Car.findByIdAndDelete(id);
+const deleteOne = async (userId, carId) => {
+  const car = await Car.findById(carId);
 
-  if (!deletedCar) {
-    throw new NotFoundError(`Car with id ${id} not found`);
+  if (!car) {
+    throw new NotFoundError(`Car with id ${carId} not found`);
   }
 
-  return deletedCar;
+  if (car.owner.toString() !== userId.toString()) {
+    throw new ForbiddenError(`Not your car`);
+  }
+
+  await Car.deleteOne({ _id: new ObjectId(carId) });
+  return car;
 };
 
 module.exports = {
   create,
   getAll,
+  getMine,
   getById,
   updateOne,
   deleteOne,

@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose');
+const { model, Schema, Types } = require('mongoose');
 
 const carSchema = new Schema(
   {
@@ -13,6 +13,11 @@ const carSchema = new Schema(
     },
     colour: {
       type: String,
+      required: true,
+    },
+    owner: {
+      type: Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },

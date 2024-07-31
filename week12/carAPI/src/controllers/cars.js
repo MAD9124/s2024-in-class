@@ -3,7 +3,7 @@ const carService = require('../services/cars');
 const create = async (req, res, next) => {
   try {
     // getting the data from the request
-    const newCar = await carService.create(req.sanitizedBody);
+    const newCar = await carService.create(req.user._id, req.sanitizedBody);
 
     // send a response
     res.status(201).json({
@@ -19,6 +19,18 @@ const getAll = async (req, res, next) => {
     const { make } = req.query;
 
     const cars = await carService.getAll(make);
+
+    res.json({
+      data: cars,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const getMine = async (req, res, next) => {
+  try {
+    const cars = await carService.getMine(req.user._id);
 
     res.json({
       data: cars,
@@ -57,7 +69,7 @@ const updateOne = async (req, res, next) => {
 const deleteOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const deletedCar = await carService.deleteOne(id);
+    const deletedCar = await carService.deleteOne(req.user._id, id);
     res.json({
       data: deletedCar,
     });
@@ -77,6 +89,7 @@ const uploadProfilePic = (req, res) => {
 module.exports = {
   create,
   getAll,
+  getMine,
   getOne,
   updateOne,
   deleteOne,
