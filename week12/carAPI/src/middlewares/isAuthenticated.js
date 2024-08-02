@@ -1,4 +1,5 @@
 const passport = require('passport');
+const { UnauthorizedError } = require('../utils/errors');
 
 const isAuthenticated = (req, res, next) =>
   passport.authenticate('bearer', {
