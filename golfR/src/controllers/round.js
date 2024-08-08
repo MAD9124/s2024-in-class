@@ -1,28 +1,32 @@
-const roundService = require("../services/round");
-const requestHandler = require("../utils/requestHandler");
+const roundService = require('../services/round');
+const requestHandler = require('../utils/requestHandler');
 
-const getAll = requestHandler(async (_req, res) => {
-  const rounds = await roundService.getAll();
+const getAll = requestHandler(async (req, res) => {
+  const rounds = await roundService.getAll(req.user._id);
   res.json({ data: rounds });
 });
 
 const getOne = requestHandler(async (req, res) => {
-  const round = await roundService.getOne(req.params.id);
+  const round = await roundService.getOne(req.user._id, req.params.id);
   res.json({ data: round });
 });
 
 const create = requestHandler(async (req, res) => {
-  const round = await roundService.create(req.body);
+  const round = await roundService.create(req.user._id, req.body);
   res.status(201).json({ data: round });
 });
 
 const updateOne = requestHandler(async (req, res) => {
-  const round = await roundService.updateOne(req.params.id, req.body);
+  const round = await roundService.updateOne(
+    req.user._id,
+    req.params.id,
+    req.body
+  );
   res.json({ data: round });
 });
 
 const deleteOne = requestHandler(async (req, res) => {
-  const round = await roundService.deleteOne(req.params.id);
+  const round = await roundService.deleteOne(req.user._id, req.params.id);
   res.json({ data: round });
 });
 

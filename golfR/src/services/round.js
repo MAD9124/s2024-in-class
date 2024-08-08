@@ -1,43 +1,75 @@
-const Round = require("../models/round");
-const { NotFoundError } = require("../utils/errors");
+const { ObjectId } = require('mongodb');
 
-const create = async (input) => {
-  const round = new Round(input);
+const Round = require('../models/round');
+const { NotFoundError, ForbiddenError } = require('../utils/errors');
+
+const create = async (userId, input) => {
+  const round = new Round({ ...input, user: userId });
   await round.save();
   return round;
 };
-const getAll = async () => {
-  const rounds = await Round.find().populate("course");
+const getAll = async (userId) => {
+  const rounds = await Round.find({
+    user: userId,
+  })
+    .populate('course')
+    .populate('user');
   return rounds;
 };
-const getOne = async (id) => {
-  const round = await Round.findById(id).populate("course");
+const getOne = async (userId, roundId) => {
+  const round = await Round.findById(roundId)
+    .populate('course')
+    .populate('user');
 
   if (!round) {
-    throw new NotFoundError(`Round with id ${id} not found`);
+    throw new NotFoundError(`Round with id ${roundId} not found`);
+  }
+
+  if (round.user._id.toString() !== userId.toString()) {
+    throw new ForbiddenError('Not your round');
   }
 
   return round;
 };
-const updateOne = async (id, input) => {
-  const round = await Round.findByIdAndUpdate(id, input, {
-    new: true,
-    runValidators: true,
-  }).populate("course");
+const updateOne = async (userId, roundId, input) => {
+  const round = await Round.findById(roundId);
 
   if (!round) {
-    throw new NotFoundError(`Round with id ${id} not found`);
+    throw new NotFoundError(`Round with id ${roundId} not found`);
   }
 
-  return round;
+  if (round.user._id.toString() !== userId.toString()) {
+    throw new ForbiddenError('Not your round');
+  }
+
+  const updatedRound = await Round.findByIdAndUpdate(
+    roundId,
+    { $set: input },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+    .populate('course')
+    .populate('user');
+
+  return updatedRound;
 };
 
-const deleteOne = async (id) => {
-  const round = await Round.findByIdAndDelete(id).populate("course");
+const deleteOne = async (userId, roundId) => {
+  const round = await Round.findByIdAndDelete(roundId)
+    .populate('course')
+    .populate('user');
 
   if (!round) {
-    throw new NotFoundError(`Round with id ${id} not found`);
+    throw new NotFoundError(`Round with id ${roundId} not found`);
   }
+
+  if (round.user._id.toString() !== userId.toString()) {
+    throw new ForbiddenError('Not your round');
+  }
+
+  await Round.deleteOne({ _id: new ObjectId(roundId) });
 
   return round;
 };

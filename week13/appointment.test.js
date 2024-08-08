@@ -32,6 +32,7 @@ describe('AppointmentService', () => {
       expect(t).toThrow(Error);
     });
   });
+
   describe('#viewAppointments', () => {
     const NOW = new Date();
     beforeAll(() => {
@@ -60,4 +61,3 @@ describe('AppointmentService', () => {
     });
   });
 });
-

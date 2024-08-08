@@ -1,9 +1,9 @@
-const Course = require("../models/course");
-const { NotFoundError } = require("../utils/errors");
+const Course = require('../models/course');
+const { NotFoundError } = require('../utils/errors');
 
 const create = async (input) => {
   const course = new Course(input);
-  console.log("!", input);
+  console.log('!', input.holes?.length);
   await course.save();
   return course;
 };
