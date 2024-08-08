@@ -43,7 +43,7 @@ app.use('/auth', authRouter);
 app.use('/api/cars', carsRouter);
 app.use('/api/drivers', driversRouter);
 app.use('/api/racetracks', racetracksRouter);
-app.use('/api/somethang', something);
+app.use('/api/something', something);
 
 app.get('/login-success', (req, res) => {
   res.send(`Your token is ${req.query.token}`);
