@@ -83,7 +83,7 @@ describe("COURSE RESOURCE", () => {
         "Expect correct data to be returnd",
       );
     });
-    it("return 400 for bad input", async () => {
+    it("return 400 for bad input - no holes", async () => {
       const input = {
         name: "Test Course",
       };
@@ -91,7 +91,7 @@ describe("COURSE RESOURCE", () => {
       const { data, status } = await request("post", "", input);
       badRequestResponse(data, status);
     });
-    it("return 400 for bad input", async () => {
+    it("return 400 for bad input - not enough holes", async () => {
       const input = {
         name: "Test",
         holes: [
@@ -105,7 +105,7 @@ describe("COURSE RESOURCE", () => {
       const { data, status } = await request("post", "", input);
       badRequestResponse(data, status);
     });
-    it("return 400 for bad input", async () => {
+    it("return 400 for bad input - invalid par value 0", async () => {
       const input = {
         name: "Test",
         holes: [...mockCourses[0].holes],
@@ -143,11 +143,14 @@ describe("COURSE RESOURCE", () => {
       );
     });
     it("should throw 400 for bad id", async () => {
-      const { data, status } = await request("put", "/badid", {});
+      const { data, status } = await request("put", "/badid", {
+        name: "tee",
+        holes: mockCourses[0].holes,
+      });
 
       badRequestResponse(data, status);
     });
-    it("should throw 400", async () => {
+    it("should throw 400 - no keys", async () => {
       const { data, status } = await request("put", `/${COURSE_ID}`, {});
 
       badRequestResponse(data, status);
@@ -226,7 +229,9 @@ describe("COURSE RESOURCE", () => {
       );
     });
     it("should throw 400 for bad id", async () => {
-      const { data, status } = await request("put", "/badid", {});
+      const { data, status } = await request("patch", "/badid", {
+        name: "testing",
+      });
 
       badRequestResponse(data, status);
     });
