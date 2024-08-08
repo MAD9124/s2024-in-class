@@ -15,6 +15,10 @@ const carSchema = new Schema(
       type: String,
       required: true,
     },
+    images: {
+      type: [String],
+      validate: [(imgs) => imgs.length > 0, 'Must have at least 1 image'],
+    },
     owner: {
       type: Types.ObjectId,
       ref: 'User',

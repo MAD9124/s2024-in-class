@@ -3,7 +3,7 @@ const carService = require('../services/cars');
 const create = async (req, res, next) => {
   try {
     // getting the data from the request
-    const newCar = await carService.create(req.user._id, req.sanitizedBody);
+    const newCar = await carService.create(req.user._id, req.sanitizedBody, req.files);
 
     // send a response
     res.status(201).json({

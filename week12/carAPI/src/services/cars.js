@@ -1,10 +1,12 @@
 const { ObjectId } = require('mongodb');
 
 const Car = require('../models/cars');
+const imageService = require('./images');
 const { NotFoundError, ForbiddenError } = require('../utils/errors');
 
-const create = async (owner, input) => {
-  const newCar = new Car({ ...input, owner });
+const create = async (owner, input, files) => {
+  const images = await imageService.uploadMany(files);
+  const newCar = new Car({ ...input, images, owner });
   await newCar.save();
 
   return newCar;

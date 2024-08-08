@@ -10,6 +10,8 @@ const {
 } = require('../middlewares/validateCar');
 
 const isAuthenticated = require('../middlewares/isAuthenticated');
+const attachImages = require('../middlewares/attachImages');
+const sanitizeBody = require('../middlewares/sanitizeBody');
 
 const carsRouter = Router();
 
@@ -19,7 +21,7 @@ carsRouter.get('/:id', isValidObjectId, carsController.getOne);
 
 carsRouter.use(isAuthenticated);
 
-carsRouter.post('/', validateCar, carsController.create);
+carsRouter.post('/', attachImages, sanitizeBody, validateCar, carsController.create);
 carsRouter.post(
   '/profile-pic',
   uploadProfilePic,
