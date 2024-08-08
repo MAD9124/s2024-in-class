@@ -41,6 +41,7 @@ app.get('/', (_req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/api/cars', carsRouter);
+app.use('/api/drivers', driversRouter);
 
 app.get('/login-success', (req, res) => {
   res.send(`Your token is ${req.query.token}`);
