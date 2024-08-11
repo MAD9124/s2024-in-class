@@ -48,7 +48,7 @@ describe('flow routes', () => {
     });
     it('should return 401 if unauthenticated', async () => {
       const { data, status } = await request(
-        'get',
+        'post',
         `/${AVAILABLE_CRAP_ID}/interested`
       );
       unauthorizedResponse(data, status);
@@ -85,7 +85,7 @@ describe('flow routes', () => {
     });
     it('should return 401 if unauthenticated', async () => {
       const { data, status } = await request(
-        'get',
+        'post',
         `/${INTERESTED_CRAP_ID}/suggest`,
         null,
         { date: '2024-05-01', address: '123 Test st', time: '12:00-1:00' }
@@ -139,7 +139,7 @@ describe('flow routes', () => {
     });
     it('should return 401 if unauthenticated', async () => {
       const { data, status } = await request(
-        'get',
+        'post',
         `/${SCHEDULED_CRAP_ID}/agree`
       );
       unauthorizedResponse(data, status);
@@ -183,7 +183,7 @@ describe('flow routes', () => {
     });
     it('should return 401 if unauthenticated', async () => {
       const { data, status } = await request(
-        'get',
+        'post',
         `/${SCHEDULED_CRAP_ID}/disagree`
       );
       unauthorizedResponse(data, status);
@@ -228,7 +228,7 @@ describe('flow routes', () => {
     });
     it('should return 401 if unauthenticated', async () => {
       const { data, status } = await request(
-        'get',
+        'post',
         `/${INTERESTED_CRAP_ID}/reset`
       );
       unauthorizedResponse(data, status);
@@ -287,7 +287,7 @@ describe('flow routes', () => {
       ]);
     });
     it('should return 401 if unauthenticated', async () => {
-      const { data, status } = await request('get', `/${AGREED_CRAP_ID}/flush`);
+      const { data, status } = await request('post', `/${AGREED_CRAP_ID}/flush`);
       unauthorizedResponse(data, status);
     });
     'should throw 403 if not AGREED',
