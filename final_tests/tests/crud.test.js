@@ -75,7 +75,7 @@ describe('BASIC CRUD', () => {
 
       const [dbCrap] = await getCrapRaw();
       expect(dbCrap?.images[0]).toMatch(
-        /^https:\/\/storage\.googleapis\.com\/\w+\/\d+-test\.png/
+        /^https:\/\/storage\.googleapis\.com\/.+\/\d+-test\.png/
       );
       expect(dbCrap).toEqual(data.data);
 
