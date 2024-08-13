@@ -74,7 +74,7 @@ describe("GET ROUTES", () => {
             $near: {
               $geometry: {
                 type: "Point",
-                coordinates: [45.123, -75.123],
+                coordinates: [-75.123,45.123, ],
               },
               $maxDistance: 10000,
             },
@@ -102,7 +102,7 @@ describe("GET ROUTES", () => {
             $near: {
               $geometry: {
                 type: "Point",
-                coordinates: [45.123, -75.123],
+                coordinates: [-75.123,45.123, ],
               },
               $maxDistance: 10000,
             },

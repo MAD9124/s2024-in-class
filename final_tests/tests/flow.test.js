@@ -53,13 +53,13 @@ describe('flow routes', () => {
       );
       unauthorizedResponse(data, status);
     });
-    it('should throw 403 if not AVAILABLE', async () => {
+    it('should throw 400 if not AVAILABLE', async () => {
       const { data, status } = await request(
         'post',
         `/${INTERESTED_CRAP_ID}/interested`,
         generateToken(MOCK_SELLER_ID)
       );
-      forbiddenResponse(data, status);
+      badRequestResponse(data, status);
     });
     it('should update the buyer and status', async () => {
       const { data, status } = await request(
@@ -92,14 +92,14 @@ describe('flow routes', () => {
       );
       unauthorizedResponse(data, status);
     });
-    it('should throw 403 if not INTERESTED', async () => {
+    it('should throw 400 if not INTERESTED', async () => {
       const { data, status } = await request(
         'post',
         `/${AVAILABLE_CRAP_ID}/suggest`,
-        generateToken(MOCK_BUYER_ID),
+        generateToken(MOCK_SELLER_ID),
         { date: '2024-05-01', address: '123 Test st', time: '12:00-1:00' }
       );
-      forbiddenResponse(data, status);
+      badRequestResponse(data, status);
     });
     it('should throw 403 if not the seller', async () => {
       const { data, status } = await request(
@@ -144,13 +144,13 @@ describe('flow routes', () => {
       );
       unauthorizedResponse(data, status);
     });
-    it('should throw 403 if not SCHEDULED', async () => {
+    it('should throw 400 if not SCHEDULED', async () => {
       const { data, status } = await request(
         'post',
         `/${INTERESTED_CRAP_ID}/agree`,
-        generateToken(MOCK_SELLER_ID)
+        generateToken(MOCK_BUYER_ID)
       );
-      forbiddenResponse(data, status);
+      badRequestResponse(data, status);
     });
     it('should throw 403 if not the buyer', async () => {
       const { data, status } = await request(
@@ -188,13 +188,13 @@ describe('flow routes', () => {
       );
       unauthorizedResponse(data, status);
     });
-    it('should throw 403 if not SCHEDULED', async () => {
+    it('should throw 400 if not SCHEDULED', async () => {
       const { data, status } = await request(
         'post',
         `/${INTERESTED_CRAP_ID}/disagree`,
         generateToken(MOCK_BUYER_ID)
       );
-      forbiddenResponse(data, status);
+      badRequestResponse(data, status);
     });
     it('should throw 403 if not the buyer', async () => {
       const { data, status } = await request(
@@ -241,13 +241,13 @@ describe('flow routes', () => {
       );
       forbiddenResponse(data, status);
     });
-    it('should throw 403 if FLUSHED', async () => {
+    it('should throw 400 if FLUSHED', async () => {
       const { data, status } = await request(
         'post',
         `/${FLUSHED_CRAP_ID}/reset`,
         generateToken(MOCK_SELLER_ID)
       );
-      forbiddenResponse(data, status);
+      badRequestResponse(data, status);
     });
     it('should update the buyer, suggestion and status - SELLER', async () => {
       const { data, status } = await request(
@@ -287,17 +287,20 @@ describe('flow routes', () => {
       ]);
     });
     it('should return 401 if unauthenticated', async () => {
-      const { data, status } = await request('post', `/${AGREED_CRAP_ID}/flush`);
+      const { data, status } = await request(
+        'post',
+        `/${AGREED_CRAP_ID}/flush`
+      );
       unauthorizedResponse(data, status);
     });
-    'should throw 403 if not AGREED',
+    'should throw 400 if not AGREED',
       async () => {
         const { data, status } = await request(
           'post',
           `/${INTERESTED_CRAP_ID}/flush`,
           generateToken(MOCK_BUYER_ID)
         );
-        forbiddenResponse(data, status);
+        badRequestResponse(data, status);
       };
     it('should throw 403 if not the seller', async () => {
       const { data, status } = await request(

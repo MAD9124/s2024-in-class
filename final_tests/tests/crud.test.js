@@ -57,7 +57,7 @@ describe('BASIC CRUD', () => {
         description: 'Test',
         location: {
           type: 'Point',
-          coordinates: [45, -75],
+          coordinates: [-75,45],
         },
         owner: MOCK_SELLER_ID,
         status: 'AVAILABLE',
@@ -139,7 +139,7 @@ describe('BASIC CRUD', () => {
       description: 'Update',
       location: {
         type: 'Point',
-        coordinates: [45, -75],
+        coordinates: [-75,45],
       },
       status: 'AVAILABLE',
       owner: {
